@@ -2,7 +2,6 @@ E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\stegfinder.exe.config
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\stegfinder.exe
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\stegfinder.pdb
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.csprojAssemblyReference.cache
-E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.Form1.resources
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.Properties.Resources.resources
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.csproj.GenerateResource.cache
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.csproj.CoreCompileInputs.cache
@@ -31,3 +30,5 @@ E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\OpenCvSharp.Extensions.xm
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\OpenCvSharp.UserInterface.pdb
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\OpenCvSharp.UserInterface.xml
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\System.ValueTuple.xml
+E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.MainForm.resources
+E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.TagForm.resources

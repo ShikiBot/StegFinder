@@ -79,6 +79,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HexForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HexForm.Designer.cs">
+      <DependentUpon>HexForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     <Compile Include="TagForm.Designer.cs">
       <DependentUpon>TagForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="HexForm.resx">
+      <DependentUpon>HexForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

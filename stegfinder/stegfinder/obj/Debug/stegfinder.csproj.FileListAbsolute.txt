@@ -32,3 +32,4 @@ E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\OpenCvSharp.UserInterface
 E:\projects\StegFinder\stegfinder\stegfinder\bin\Debug\System.ValueTuple.xml
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.MainForm.resources
 E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.TagForm.resources
+E:\projects\StegFinder\stegfinder\stegfinder\obj\Debug\stegfinder.HexForm.resources

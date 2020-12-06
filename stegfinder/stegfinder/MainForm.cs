@@ -29,7 +29,7 @@ namespace stegfinder
         private Timer resizeTimer = null;
         List<Task<Bitmap>> tasksList = new List<Task<Bitmap>>();
         static System.Threading.CancellationTokenSource canselTocken;
-
+        HexForm hex;
 
 
 
@@ -81,7 +81,7 @@ namespace stegfinder
         {
             try
             {
-                canselTocken.Cancel();
+                //canselTocken.Cancel();
                 tasksList.Clear();
             }
             catch { }
@@ -98,13 +98,15 @@ namespace stegfinder
             Close();
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private async void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             progressBar1.Visible = true;
             fileName = openFileDialog1.FileName;
+            hex = new HexForm(fileName);
+            hex.value = await Task.Run(() => hex.aaa(fileName));
             fileFormatToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
-            //dataExtractToolStripMenuItem.Enabled = true;
+            dataExtractToolStripMenuItem.Enabled = true;
             DrawSpec();
         }
 
@@ -276,14 +278,9 @@ namespace stegfinder
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void dataExtractToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dataExtractToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*string value = await Task.Run(() =>
-            {
-                byte[] data = new byte[10000];
-                using (var fstream = File.OpenRead(fileName)) fstream.ReadAsync(data, 0, data.Length);
-                return BitConverter.ToString(data);
-            });*/
+            hex.Show();
         }
 
         /// <summary>

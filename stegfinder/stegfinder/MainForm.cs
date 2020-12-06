@@ -27,9 +27,8 @@ namespace stegfinder
         Bitmap image = new Bitmap(10, 10);
         private Timer scrollingTimer = null;
         private Timer resizeTimer = null;
-        List<Task<Bitmap>> tasksList = new List<Task<Bitmap>>();
+        readonly List<Task<Bitmap>> tasksList = new List<Task<Bitmap>>();
         static System.Threading.CancellationTokenSource canselTocken;
-        HexForm hex;
 
 
 
@@ -98,12 +97,10 @@ namespace stegfinder
             Close();
         }
 
-        private async void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private  void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             progressBar1.Visible = true;
             fileName = openFileDialog1.FileName;
-            hex = new HexForm(fileName);
-            hex.value = await Task.Run(() => hex.aaa(fileName));
             fileFormatToolStripMenuItem.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
             dataExtractToolStripMenuItem.Enabled = true;
@@ -280,6 +277,7 @@ namespace stegfinder
         /// <param name="e"></param>
         private void dataExtractToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            HexForm hex = new HexForm(fileName);
             hex.Show();
         }
 

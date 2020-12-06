@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,75 +14,92 @@ namespace stegfinder
 {
     public partial class HexForm : Form
     {
-        string fileName;
+        readonly string fileName;
         public string value;
-        int y;
-        private Timer scrollTimer = null;
+        Thread thread;
 
         public HexForm(string fileName)
         {
             InitializeComponent();
             this.fileName = fileName;
-            richTextBox1.MouseWheel += RichTextBox_MouseWheel;
-            y = 1;
-        }
-
-        void RichTextBox_MouseWheel(object sender, MouseEventArgs e)
-        {
-            //throw new NotImplementedException();
         }
 
         private void hex_Load(object sender, EventArgs e)
         {
-            int z = 0;
-            for (int x = y; x <= y * 50; x++)
+            var progress = new Progress<string>(s => richTextBox1.Text += s);
+            thread = new Thread(() => ReadFile(fileName, progress, 0, 50));
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Функция чтения файла по HEX строчкам по 16 символов
+        /// </summary>
+        /// <param name="fileName">путь к файлу</param>
+        /// <param name="progress">объект класса Progress<string> со ссылкой на текстовый элемент формы</param>
+        /// <param name="offset">индекс начальной строки</param>
+        /// <param name="count">количество читаемых строк</param>
+        public void ReadFile(string fileName, IProgress<string> progress, long offset, long count)
+        {
+            byte[] data = new byte[16];            
+            FileStream FS = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            long Offset = count == 0 ? FS.Length : offset*16;
+            while (Offset < count * 16 && Offset < FS.Length)
             {
-                richTextBox1.Text += value.Substring(x * 48, 47) + "\n";
-                z = x;
+                FS.Seek(Offset, SeekOrigin.Begin);
+                FS.Read(data, 0, 16);
+                Offset += 16;
+                string s = BitConverter.ToString(data).Replace("-", " ") + "\n";
+                progress.Report(s);
+                Thread.Sleep(1);
             }
-            y = z + 1;
+            FS.Close();
         }
 
-        public async Task<string> aaa(string fileName)
+        private void HexForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FileInfo fileInf = new FileInfo(fileName);
-            byte[] data = new byte[(int)fileInf.Length];
-            using (var fstream = File.OpenRead(fileName)) await fstream.ReadAsync(data, 0, data.Length);
-            string s = BitConverter.ToString(data).Replace("-", "\t"); 
-            return s;
+            thread.Abort();
         }
 
-        private void richTextBox1_VScroll(object sender, EventArgs e)
+        //как-нибудь надо будет переделать
+        private void button1_Click(object sender, EventArgs e)
         {
-            /*if (scrollTimer == null)
+            byte[] data = new byte[10000];
+
+            using (var fstream = File.OpenRead(fileName))
             {
-                scrollTimer = new Timer() { Enabled = false, Interval = 100, Tag = MousePosition.Y }; // новый таймер тикающий раз в 500мс
-                scrollTimer.Tick += (send, ea) =>
+                fstream.Read(data, 0, data.Length);
+            }
+            int stasSoSchetami = 0;
+            label1.Text = "";
+            string stroka = BitConverter.ToString(data);
+            int result;
+
+            string perenos = File.ReadAllText("keywords.txt");
+
+            char[] b = perenos.ToArray();
+            string petr = "";
+            string[] danil = new string[b.Length];
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                danil[i] = Convert.ToString(b[i], 16);
+                petr += danil[i];
+            }
+
+            string pattern = "da";
+            string[] ilya = System.Text.RegularExpressions.Regex.Split(petr, pattern);
+            string svetochka = "";
+
+            for (int i = 0; i < ilya.Length; i++)
+            {
+                result = stroka.IndexOf(ilya[i]);
+                if (result != -1)
                 {
-                    if (MousePosition.Y == (int)scrollTimer.Tag) // проверка изменения значения с предыдущего тика
-                    {
-                        scrollTimer.Stop(); // остановка и удаление таймера если значения не изменились
-                        scrollTimer.Dispose();
-                        scrollTimer = null;
-                        /*if (y * 48 < value.Length)
-                        {
-                            int z = 0;
-                            for (int x = y; x <= y + 50; x++)
-                            {
-                                richTextBox1.AppendText(value.Substring(x * 48, 60) + "\n");
-                                z = x;
-                            }
-                            y = z + 1;
-                        }// вызов отрисовки 
-                        else MessageBox.Show("asdas");
-                    }
-                    else scrollTimer.Tag = MousePosition.Y; // обновление значений в ином случае              
-                };
-                scrollTimer.Start();
-            }*/
-            
+                    stasSoSchetami += 1;
+                    svetochka = svetochka + " на позиции: " + result + " ";
+                }
+            }
+            label1.Text = "Найдено " + stasSoSchetami + " Совпадений: " + svetochka;
         }
-
-
     }
 }
